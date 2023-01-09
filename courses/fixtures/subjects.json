@@ -1,0 +1,42 @@
+[
+{
+    "model": "courses.subject",
+    "pk": 1,
+    "fields": {
+        "title": "mathematics",
+        "slug": "mathematics"
+    }
+},
+{
+    "model": "courses.subject",
+    "pk": 2,
+    "fields": {
+        "title": "biology",
+        "slug": "biology"
+    }
+},
+{
+    "model": "courses.subject",
+    "pk": 3,
+    "fields": {
+        "title": "project management",
+        "slug": "project-management"
+    }
+},
+{
+    "model": "courses.subject",
+    "pk": 4,
+    "fields": {
+        "title": "computer programming",
+        "slug": "computer-programming"
+    }
+},
+{
+    "model": "courses.subject",
+    "pk": 5,
+    "fields": {
+        "title": "music",
+        "slug": "music"
+    }
+}
+]
