@@ -23,3 +23,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("course/", include("courses.urls")),
 ]
+
+admin.site.site_header = "Masomo Administrator"
+admin.site.site_title = "Masomo Admin Portal"
+admin.site.index_title = "Welcome to The Masomo Portal"
