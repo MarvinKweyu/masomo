@@ -36,7 +36,7 @@ class Course(models.Model):
         ordering = ["-created"]
 
     def __str__(self):
-        return selt.title
+        return self.title
 
 
 class Module(models.Model):
