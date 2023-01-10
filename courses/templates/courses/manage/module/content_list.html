@@ -31,7 +31,7 @@ Module {{ module.order|add:1 }}: {{ module.title }}
     <h3>Module contents:</h3>
     <div id="module-contents">
         {% for content in module.contents.all %}
-        <div data-id="{{ content.id }}">
+        <div data-id="{{ content.id }}" style="margin-bottom: 2%;">
             {% with item=content.item %}
             <p>{{ item }} ({{ item | model_name }})</p>
             <a href="{% url "module_content_update" module.id item|model_name item.id %}">Edit</a>

@@ -40,8 +40,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "courses",
+    "students",
     # 3rd party
     "bootstrap5",
+    "embed_video",
 ]
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
@@ -130,3 +132,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static/")
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+from django.urls import reverse_lazy
+
+LOGIN_REDIRECT_URL = reverse_lazy("student_course_list")
+
+MEDIA_URL = "/media/"  # url of files
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")  # location of files in dir
