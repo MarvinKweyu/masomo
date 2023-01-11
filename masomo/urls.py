@@ -33,6 +33,7 @@ urlpatterns = [
 admin.site.site_header = "Masomo Administrator"
 admin.site.site_title = "Masomo Admin Portal"
 admin.site.index_title = "Welcome to The Masomo Portal"
+admin.site.index_template = "memcache_status/admin_index.html"
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

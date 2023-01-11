@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-l5#*$v6%ntl7w19$w&(fq!dx(_9m%6q%%&$yh-nn-h$1ty-y7m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # 3rd party
     "bootstrap5",
     "embed_video",
+    "memcache_status",
 ]
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
@@ -139,3 +140,10 @@ LOGIN_REDIRECT_URL = reverse_lazy("student_course_list")
 
 MEDIA_URL = "/media/"  # url of files
 MEDIA_ROOT = os.path.join(BASE_DIR, "media/")  # location of files in dir
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
+        "LOCATION": "127.0.0.1:11211",
+    }
+}
