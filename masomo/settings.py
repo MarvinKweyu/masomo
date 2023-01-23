@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "courses",
     "students",
+    "chat",
     # 3rd party
     "bootstrap5",
     "embed_video",
