@@ -20,5 +20,7 @@ DATABASES = {
         "NAME": os.getenv("DATABASE_NAME", "masomo"),
         "USER": os.getenv("DATABASE_USER", "masomo"),
         "PASSWORD": os.getenv("DATABASE_PASSWORD", "masomo"),
+        "HOST": os.getenv("DATABASE_HOST", "db"),
+        "PORT": os.getenv("DATABASE_PORT", "5432"),
     }
 }

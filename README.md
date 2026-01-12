@@ -7,13 +7,103 @@
 ## Table of Contents
 - [Table of Contents](#table-of-contents)
 - [Setting up masomo](#setting-up-masomo)
-  - [Manual](#manual)
-  - [Docker - it just works(WIP)](#docker---it-just-workswip)
+  - [Docker (Recommended)](#docker-recommended)
+    - [Development Setup](#development-setup)
+    - [Production Setup](#production-setup)
+  - [Manual Setup](#manual-setup)
 
 
 ## Setting up masomo
 
-### Manual
+### Docker (Recommended)
+**Basic requirements**
+- Docker
+- Docker Compose
+
+#### Development Setup
+
+The development environment uses SQLite for the database and includes hot-reload functionality.
+
+1. Copy the example environment file (optional):
+```bash
+cp .env.dev.example .env
+```
+
+2. Build and start the development containers:
+```bash
+docker-compose -f docker-compose.dev.yml up --build
+```
+
+2. Access the application at `http://localhost:8000`
+
+3. Default superuser credentials (created automatically):
+   - Username: `admin`
+   - Password: `admin`
+   - Email: `admin@masomo.com`
+
+4. To run management commands:
+```bash
+docker-compose -f docker-compose.dev.yml exec web python manage.py <command>
+```
+
+5. To stop the containers:
+```bash
+docker-compose -f docker-compose.dev.yml down
+```
+
+#### Production Setup
+
+The production environment uses PostgreSQL database and uWSGI server.
+
+1. Create your environment file:
+```bash
+cp .env.example .env
+```
+
+2. Edit `.env` and update the following critical variables:
+   - `SECRET_KEY`: Generate a secure random key
+   - `DATABASE_PASSWORD`: Set a strong database password
+   - `POSTGRES_PASSWORD`: Must match DATABASE_PASSWORD
+   - `ALLOWED_HOSTS`: Set your domain names
+
+3. Build and start the production containers:
+```bash
+docker-compose up --build -d
+```
+
+3. The application will be available at `http://localhost:8000`
+
+4. To view logs:
+```bash
+docker-compose logs -f web
+```
+
+5. To run management commands:
+```bash
+docker-compose exec web python manage.py <command>
+```
+
+6. To create a superuser:
+```bash
+docker-compose exec web python manage.py createsuperuser
+```
+
+7. To stop the containers:
+```bash
+docker-compose down
+```
+
+8. To stop and remove all data (including database):
+```bash
+docker-compose down -v
+```
+
+**Production Notes:**
+- Generate a secure `SECRET_KEY` (use Django's `get_random_secret_key()`)
+- For production deployment, add a reverse proxy (nginx/traefik) in front of the application
+- Consider using Docker secrets or a secrets management service for sensitive data
+
+### Manual Setup
 **Basic requirements**
 - memcached
 
@@ -33,7 +123,3 @@ Run the project and access the components on `127.0.0.1:8000`
 ```bash
 python manage.py runserver
 ```
-
-### Docker - it just works(WIP)
-**Basic requirements**
- - Docker
