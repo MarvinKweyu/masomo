@@ -23,5 +23,8 @@ else:
     print('Superuser already exists.')
 END
 
+echo "Populating database with sample courses..."
+python manage.py populate_courses
+
 # Start server
 exec "$@"

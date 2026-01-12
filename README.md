@@ -41,12 +41,24 @@ docker-compose -f docker-compose.dev.yml up --build
    - Password: `admin`
    - Email: `admin@masomo.com`
 
-4. To run management commands:
+4. **Sample Data**: The development environment automatically populates the database with 5 Computer Science courses:
+   - Full Stack Web Development with Django
+   - Python for Data Science and Analytics
+   - Machine Learning Fundamentals
+   - Computer Networks and Security
+   - Database Design and SQL
+
+5. To run management commands:
 ```bash
 docker-compose -f docker-compose.dev.yml exec web python manage.py <command>
 ```
 
-5. To stop the containers:
+6. To manually populate/re-populate sample courses:
+```bash
+docker-compose -f docker-compose.dev.yml exec web python manage.py populate_courses
+```
+
+7. To stop the containers:
 ```bash
 docker-compose -f docker-compose.dev.yml down
 ```
