@@ -10,7 +10,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         self.stdout.write("Populating database with Computer Science courses...")
 
-        # Get or create admin user as course owner
+        # course owner
         admin_user, created = User.objects.get_or_create(
             username="admin",
             defaults={
@@ -23,6 +23,21 @@ class Command(BaseCommand):
             admin_user.set_password("admin")
             admin_user.save()
             self.stdout.write(self.style.SUCCESS("Created admin user"))
+
+        student_user, created = User.objects.get_or_create(
+            username="student",
+            defaults={
+                "email": "student@masomo.com",
+                "is_staff": False,
+                "is_superuser": False,
+                "first_name": "John",
+                "last_name": "Student",
+            },
+        )
+        if created:
+            student_user.set_password("student")
+            student_user.save()
+            self.stdout.write(self.style.SUCCESS("Created student user"))
 
         # Create Computer Science subjects
         subjects_data = [
@@ -273,6 +288,7 @@ class Command(BaseCommand):
             },
         ]
 
+        created_courses = []
         for course_data in courses_data:
             subject = subjects[course_data["subject"]]
             slug = slugify(course_data["title"])
@@ -291,6 +307,7 @@ class Command(BaseCommand):
                 self.stdout.write(
                     self.style.SUCCESS(f"Created course: {course_data['title']}")
                 )
+                created_courses.append(course)
 
                 #  modules and content
                 for module_data in course_data["modules"]:
@@ -316,6 +333,20 @@ class Command(BaseCommand):
                             )
 
                     self.stdout.write(f"  - Created module: {module_data['title']}")
+        # Enroll student in all courses
+        all_courses = Course.objects.all()
+        enrolled_count = 0
+        for course in all_courses:
+            if student_user not in course.students.all():
+                course.students.add(student_user)
+                enrolled_count += 1
+
+        if enrolled_count > 0:
+            self.stdout.write(
+                self.style.SUCCESS(
+                    f"\nEnrolled student user in {enrolled_count} course(s)"
+                )
+            )
 
         self.stdout.write(
             self.style.SUCCESS(

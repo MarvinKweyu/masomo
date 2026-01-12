@@ -36,10 +36,19 @@ docker-compose -f docker-compose.dev.yml up --build
 
 2. Access the application at `http://localhost:8000`
 
-3. Default superuser credentials (created automatically):
+3. Default user accounts (created automatically):
+   
+   **Admin Account:**
    - Username: `admin`
    - Password: `admin`
    - Email: `admin@masomo.com`
+   - Role: Administrator (can manage courses)
+   
+   **Student Account:**
+   - Username: `student`
+   - Password: `student`
+   - Email: `student@masomo.com`
+   - Role: Student (enrolled in all courses)
 
 4. **Sample Data**: The development environment automatically populates the database with 5 Computer Science courses:
    - Full Stack Web Development with Django
