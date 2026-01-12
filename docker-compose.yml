@@ -1,0 +1,44 @@
+services:
+  db:
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB:-masomo}
+      - POSTGRES_USER=${POSTGRES_USER:-masomo}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-masomo}
+    restart: unless-stopped
+
+  memcached:
+    image: memcached:1.6-alpine
+    command: memcached -m 64
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: uwsgi --socket :8000 --master --enable-threads --module masomo.wsgi:application
+    volumes:
+      - static_volume:/app/static
+      - media_volume:/app/media
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE:-masomo.config.prod}
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-l5#*$v6%ntl7w19$w&(fq!dx(_9m%6q%%&$yh-nn-h$1ty-y7m}
+      - DATABASE_NAME=${DATABASE_NAME:-masomo}
+      - DATABASE_USER=${DATABASE_USER:-masomo}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD:-masomo}
+      - DATABASE_HOST=${DATABASE_HOST:-db}
+      - DATABASE_PORT=${DATABASE_PORT:-5432}
+      - MEMCACHED_LOCATION=${MEMCACHED_LOCATION:-memcached:11211}
+    depends_on:
+      - db
+      - memcached
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:

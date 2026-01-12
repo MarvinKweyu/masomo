@@ -1,0 +1,24 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8001:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE:-masomo.config.dev}
+      - MEMCACHED_LOCATION=${MEMCACHED_LOCATION:-memcached:11211}
+      - SECRET_KEY=${SECRET_KEY:-django-insecure-dev-key}
+    depends_on:
+      - memcached
+    stdin_open: true
+    tty: true
+
+  memcached:
+    image: memcached:1.6-alpine
+    ports:
+      - "11211:11211"
+    command: memcached -m 64

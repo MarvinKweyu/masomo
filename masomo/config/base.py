@@ -125,7 +125,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media/")  # location of files in dir
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
-        "LOCATION": "127.0.0.1:11211",
+        "LOCATION": os.getenv("MEMCACHED_LOCATION", "127.0.0.1:11211"),
     }
 }
 
